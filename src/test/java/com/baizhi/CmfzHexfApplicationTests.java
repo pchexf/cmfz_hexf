@@ -143,5 +143,6 @@ public class CmfzHexfApplicationTests {
     public void test1(){
         User user = new User("1", "1", "1", "1", "1", "1", "1", "男", "1", "1", "1", new Date(), "1");
         userService.select(user);
+        System.out.ptintln(user);
     }
 }
