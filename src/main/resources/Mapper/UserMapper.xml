@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.UserDao">
+
+    <sql id="querySql"> id,phone,password,salt,pic_img,ahama,name,sex,city,sign,status,reg_date,guruld </sql>
+    <!--查找用户-->
+    <select id="selectAll" resultType="User">
+        select <include refid="querySql"/> from user limit #{page},#{rows}
+    </select>
+    <!--修改-->
+    <update id="update">
+        update user
+        <set>
+            <if test="phone!=null">
+                phone=#{phone},
+            </if>
+            <if test="password!=null">
+                password=#{password},
+            </if>
+            <if test="salt!=null">
+                salt=#{salt},
+            </if>
+            <if test="pic_img!=null">
+                pic_img=#{pig_img},
+            </if>
+            <if test="ahama!=null">
+                ahama=#{ahama},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="city!=null">
+                city=#{city},
+            </if>
+            <if test="sign!=null">
+                sign=#{sign},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="reg_date!=null">
+                reg_date=#{reg_date}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--增加用户-->
+    <insert id="add">
+        insert into user values(#{id},#{phone},#{password},#{salt},#{pic_img},#{ahama},#{name},#{sex},#{city},#{sign},#{status},#{reg_date},#{guruld})
+    </insert>
+    <select id="selectPage" resultType="int">
+        select count(*) from user
+    </select>
+    <select id="select" resultType="City">
+        select city as name,count(*) as value from user where sex=#{sex} group by(city)
+    </select>
+    <select id="selectMonth" resultType="Integer">
+        select count(*) from user where sex=#{sex} group by month (reg_date)
+    </select>
+</mapper>

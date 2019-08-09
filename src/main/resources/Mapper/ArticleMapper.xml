@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ArticleDao">
+
+    <sql id="querySql"> id,title,insert_img,content,status,up_date,guruid </sql>
+    <!--查找用户-->
+    <select id="selectAll" resultType="Article">
+        select <include refid="querySql"/> from article limit #{page},#{rows}
+    </select>
+    <!--修改-->
+    <update id="update">
+        update article
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="insert_img!=null">
+                insert_img=#{insert_img},
+            </if>
+            <if test="content!=null">
+                content=#{content},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="up_date!=null">
+                up_date=#{up_date}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--增加用户-->
+    <insert id="add">
+        insert into article values(#{id},#{title},#{insert_img},#{status},#{content},#{up_date},#{guruid})
+    </insert>
+    <select id="selectPage" resultType="int">
+        select count(*) from article
+    </select>
+    <!--删除-->
+    <delete id="delete">
+        delete from article where id=#{id}
+    </delete>
+</mapper>

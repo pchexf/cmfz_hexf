@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <!--查找所有-->
+    <resultMap id="albumMap" type="Album">
+        <id column="aid" property="id"/>
+        <result property="title" column="title"/>
+        <result property="author" column="author"/>
+        <result property="score" column="score"/>
+        <result property="cover_img" column="cover_img"/>
+        <result property="broadcast" column="broadcast"/>
+        <result property="count" column="count"/>
+        <result property="content" column="content"/>
+        <result property="pud_date" column="pud_date"/>
+        <collection property="list" ofType="Chapter">
+            <id property="id" column="cid"/>
+            <result property="url" column="url"/>
+            <result property="size" column="size"/>
+            <result property="duration" column="duration"/>
+            <result property="up_date" column="up_date"/>
+        </collection>
+    </resultMap>
+    <select id="selectAll" resultMap="albumMap">
+        select a.id aid,a.title,a.author,a.score,a.cover_img,a.broadcast,a.count,a.content,a.pud_date,c.id cid,c.url,c.size,c.duration,c.up_date from album a left join chapter c on a.id=album_id limit #{page},#{rows}
+    </select>
+    <!--增加专辑-->
+    <insert id="add">
+        insert into album value(#{id},#{title},#{author},#{score},#{cover_img},#{broadcast},#{count},#{content},#{pud_date})
+    </insert>
+    <!--删除专辑-->
+    <delete id="delete">
+        delete from album where id=#{id}
+    </delete>
+    <!--查找总条数-->
+    <select id="selectPage" resultType="int">
+        select count(*) from album
+    </select>
+    <!--修改专辑-->
+    <update id="update">
+        update album
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="author!=null">
+                author=#{author},
+            </if>
+            <if test="score!=null">
+                score=#{score},
+             </if>
+            <if test="cover_img!=null">
+                cover_img=#{cover_img},
+            </if>
+            <if test="broadcast!=null">
+                broadcast=#{broadcast},
+            </if>
+            <if test="count!=null">
+                count=#{count},
+            </if>
+            <if test="content!=null">
+                content=#{content},
+            </if>
+            <if test="pud_date!=null">
+                pud_date=#{pud_date}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

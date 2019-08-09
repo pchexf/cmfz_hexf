@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ChapterDao">
+    <!--查找某专辑下所有章节-->
+    <select id="selectAll" resultType="Chapter">
+        select * from chapter where album_id=#{id} limit #{page},#{rows}
+    </select>
+    <!--增加章节-->
+    <insert id="add">
+        insert into chapter values(#{id},#{url},#{size},#{duration},#{up_date},#{album_id})
+    </insert>
+    <!--删除章节-->
+    <delete id="delete">
+        delete from chapter where id=#{id}
+    </delete>
+    <!--修改章节-->
+    <update id="update">
+        update chapter
+        <set>
+            <if test="url!=null">
+                url=#{url},
+            </if>
+            <if test="size!=null">
+                size=#{size},
+            </if>
+            <if test="duration!=null">
+                duration=#{duration},
+            </if>
+            <if test="up_date!=null">
+                up_date=#{up_date},
+            </if>
+            <if test="album_id!=null">
+                album_id=#{album_id}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--查找某专辑下所有章节的条数-->
+    <select id="selectPage" resultType="int">
+        select count(*) from chapter where album_id=#{id}
+    </select>
+</mapper>
